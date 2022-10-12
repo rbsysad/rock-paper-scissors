@@ -10,10 +10,17 @@ function getComputerChoice() {
     }
 }
 
-let computerSelection = getComputerChoice();
-// let playerSelection = prompt('Rock, paper, scissors?').toLowerCase();
+let wins = 0;
+let ties = 0;
+let losses = 0;
 
 function win(playerSelection, computerSelection) {
+    wins += 1;
+    winResult.textContent = 'Wins: ' + wins;
+    if (wins === 5) {
+        alert('You win!');
+    }
+
     return (
         'You chose ' +
         playerSelection +
@@ -24,6 +31,9 @@ function win(playerSelection, computerSelection) {
 }
 
 function tie(playerSelection, computerSelection) {
+    ties += 1;
+    tieResult.textContent = 'Ties: ' + ties;
+
     return (
         'You chose ' +
         playerSelection +
@@ -34,6 +44,12 @@ function tie(playerSelection, computerSelection) {
 }
 
 function lose(playerSelection, computerSelection) {
+    losses += 1;
+    lossResult.textContent = 'Losses: ' + losses;
+    if (losses === 5) {
+        alert('You lose!');
+    }
+
     return (
         'You chose ' +
         playerSelection +
@@ -43,7 +59,9 @@ function lose(playerSelection, computerSelection) {
     );
 }
 
-function playRound(playerSelection, computerSelection) {
+function playRound(playerSelection) {
+    let computerSelection = getComputerChoice();
+
     return playerSelection === computerSelection
         ? tie(playerSelection, computerSelection)
         : playerSelection === 'rock' && computerSelection === 'paper'
@@ -61,18 +79,31 @@ function playRound(playerSelection, computerSelection) {
         : '';
 }
 
-// console.log(playRound(playerSelection, computerSelection));
+const resultsDiv = document.querySelector('#results-div');
+const counterDiv = document.querySelector('#counter-div');
 
 const rockBtn = document.getElementById('rock');
 const paperBtn = document.getElementById('paper');
 const scissorsBtn = document.getElementById('scissors');
 
-rockBtn.addEventListener('click', () =>
-    console.log(playRound('rock', computerSelection))
-);
-paperBtn.addEventListener('click', () =>
-    console.log(playRound('paper', computerSelection))
-);
-scissorsBtn.addEventListener('click', () =>
-    console.log(playRound('scissors', computerSelection))
-);
+const winResult = document.querySelector('.wins');
+const lossResult = document.querySelector('.losses');
+const tieResult = document.querySelector('.ties');
+
+rockBtn.addEventListener('click', () => {
+    const p = document.createElement('p');
+    p.textContent = playRound('rock');
+    resultsDiv.appendChild(p);
+});
+
+paperBtn.addEventListener('click', () => {
+    const p = document.createElement('p');
+    p.textContent = playRound('paper');
+    resultsDiv.appendChild(p);
+});
+
+scissorsBtn.addEventListener('click', () => {
+    const p = document.createElement('p');
+    p.textContent = playRound('scissors');
+    resultsDiv.appendChild(p);
+});
